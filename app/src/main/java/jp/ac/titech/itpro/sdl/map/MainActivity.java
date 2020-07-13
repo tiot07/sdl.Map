@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,13 +89,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     return;
                 }
                 Location location = locationResult.getLastLocation();
-                LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-                infoView.setText(getString(R.string.latlng_format, ll.latitude, ll.longitude));
+                final LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
+                //infoView.setText(getString(R.string.latlng_format, ll.latitude, ll.longitude));
                 if (map == null) {
                     Log.d(TAG, "onLocationResult: map == null");
                     return;
                 }
-                map.animateCamera(CameraUpdateFactory.newLatLng(ll));
+                //map.animateCamera(CameraUpdateFactory.newLatLng(ll));
+
+                Button button = findViewById(R.id.button);
+
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        infoView.setText(getString(R.string.latlng_format, ll.latitude, ll.longitude));
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(ll, 15f));
+                    }
+                });
             }
         };
     }
